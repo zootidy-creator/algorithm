@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "gcc: 编译当前文件",
+      "type": "shell",
+      "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+      "args": [
+        "-std=c11",
+        "-Wall",
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "gcc: 编译并运行当前文件",
+      "type": "shell",
+      "command": "& '${fileDirname}\\${fileBasenameNoExtension}.exe'",
+      "dependsOn": "gcc: 编译当前文件",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}
