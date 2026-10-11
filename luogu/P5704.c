@@ -15,7 +15,7 @@ int main(void)
     
 
 
-    printf("%c", a-32);
+    printf("%c\n", a-32);
 
     return 0;
 }
