@@ -215,7 +215,31 @@ if (fmod(b, 1.0) == 0.0)        /* 判断整除用 fmod，不是 % */
 
 ---
 
-## 八、每次提交前的 30 秒自查
+## 八、脚本与工具链（不是 C，但能让你卡半小时）
+
+### ⭐27. `.bat` 是纯 ASCII 文件，`rem` 注释里不能有中文和 `& | < >`
+```bat
+rem  错误：消息里不要出现 & | > < 这些符号
+rem  ↑ cmd 的 rem 并不保护特殊字符：& 会断句、> < 变成重定向、中文按 GBK 读成乱码
+rem  ↑ 结果：注释被拆成几条"命令"去执行 → 屏幕上 'xxx' 不是内部或外部命令
+rem  正确：rem 后面只写英文，bat 里永远不出现中文和 & | < > ( )
+```
+- **第二个后果**（更阴）：这些垃圾命令会打乱后面的 `if errorlevel (...)` 块，导致 `git commit` 被静默跳过 —— 现象是"明明改了文件，却显示 nothing to commit"。
+- 口诀：**`.bat` 全 ASCII 不用特殊符号；`.ps1` 存 UTF-8 with BOM，打印内容也用英文。**
+
+### ⭐28. `.ps1` 必须存成 UTF-8 **with BOM**
+- 没有 BOM 时，Windows PowerShell 5.1 按 GBK 读 → 中文乱码 → 报 `字符串缺少终止符`。
+- 每次改完 `.ps1` 都要确认 BOM 还在（VS Code 右下角看编码，或另存为时选 "UTF-8 with BOM"）。
+
+### 29. `git` 的 CRLF 警告不是错误
+```
+warning: in the working copy of 'x.c', LF will be replaced by CRLF the next time Git touches it
+```
+- Windows 上 Git 自动处理换行符，看到可以无视。
+
+---
+
+## 九、每次提交前的 30 秒自查
 
 - [ ] 编译 **0 warning**（`-Wall -Wextra`）——警告不是噪音
 - [ ] 数组下标上界是 `len-1`
