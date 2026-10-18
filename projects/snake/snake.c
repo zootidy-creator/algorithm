@@ -150,7 +150,7 @@ void Draw(const Game *g)
     printf("\n");
 
     printf("SCORE: %d  \n", g->score);
-    printf("DIR: %d  (0=UP 1=DOWN 2=LEFT 3=RIGHT)\n", g->dir);
+    printf("SPEED: %d LEN: %d \n", g->speed, g->len);
 }
 
 void HandleInput(Game *g, int key)
@@ -254,9 +254,19 @@ void Step(Game *g)
             g->len++;
         }
         SpawnFood(g);
+        if(g->speed>80)g->speed-=5;
     }
     if(g->body[0].x<0 || g->body[0].y>=BOARD_H||g->body[0].x>=BOARD_W||g->body[0].y<0)
     {
         g->over=1;
     }
+    int hit=0;
+    for(int i=1;i<g->len;i++)
+    {
+        if(g->body[i].x==g->body[0].x&&g->body[i].y==g->body[0].y)
+        {
+            hit=1;
+        }
+    }
+    if(hit)g->over=1;
 }

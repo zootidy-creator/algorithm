@@ -21,25 +21,41 @@ int main(void)
     Game g;
     int quit=0;
 
-    GameInit(&g);
     CursorHide();
-    ScreenClear();
 
-    while(!g.over && !quit)
+    while(!quit)
     {
-        if(KeyPressed())
+        GameInit(&g);
+        ScreenClear();
+        while(!g.over && !quit)
         {
-            int key=ReadKey();
-            if(key=='q'||key=='Q')
+            if(KeyPressed())
             {
-                quit=1;
+                int key=ReadKey();
+                if(key=='q'||key=='Q')
+                {
+                    quit=1;
+                    break;
+                }
+                HandleInput(&g,key);
             }
-            HandleInput(&g,key);
+            Step(&g);
+            Draw(&g);
+            WaitMs(g.speed);
         }
 
-        Step(&g);
-        Draw(&g);
-        WaitMs(g.speed);
+        if(quit)break;
+
+        /*---GAME OVER画面---*/
+        Gotoxy(0,BOARD_H+4);  //棋盘下面2行再往下
+        printf("=========== GAME OVER ==========\n");
+        printf("SCORE: %d     LENGTH: %d\n",g.score,g.len);
+        printf("Press R to restart, Q to quit...\n");
+
+        while(KeyPressed()) ReadKey();
+        int k=ReadKey();
+
+        if(k != 'r'&& k != 'R')break;
     }
     
 
