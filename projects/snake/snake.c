@@ -247,7 +247,7 @@ void Step(Game *g)
     MoveSnake(g);
     if(g->body[0].x == g->food.x&&g->body[0].y == g->food.y)
     {
-        g->score +=10;
+        AddScore(g,10);
         if(g->len<MAX_LEN)
         {
             g->body[g->len]=oldTail;
@@ -270,3 +270,9 @@ void Step(Game *g)
     }
     if(hit)g->over=1;
 }
+
+void AddScore(Game *g,int n)
+{
+    g->score+=n;
+}
+

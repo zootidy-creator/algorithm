@@ -54,7 +54,7 @@ void Draw(const Game *g);        /* 画出完整画面 */
 void SpawnFood(Game *g);
 void MoveSnake(Game *g);
 void Step(Game *g);
-
+void AddScore(Game *g,int n);
 
 
 #endif /* SNAKE_H */
